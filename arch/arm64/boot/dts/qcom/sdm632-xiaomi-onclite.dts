@@ -152,6 +152,28 @@
 &i2c_3 {
 	status = "okay";
 
+	touchscreen@14 {
+		compatible = "goodix,gt1158";
+		reg = <0x14>;
+
+		interrupt-parent = <&tlmm>;
+		interrupts = <65 IRQ_TYPE_EDGE_FALLING>;
+
+		pinctrl-0 = <&touch_default_state>;
+		pinctrl-names = "default";
+
+		reset-gpios = <&tlmm 64 GPIO_ACTIVE_HIGH>;
+		irq-gpios = <&tlmm 65 GPIO_ACTIVE_HIGH>;
+
+		VDDIO-supply = <&pm8953_l6>;
+		AVDD28-supply = <&pm8953_l10>;
+
+		touchscreen-size-x = <720>;
+		touchscreen-size-y = <1520>;
+
+		status = "disabled";
+	};
+
 	touchscreen@38 {
 		compatible = "edt,edt-ft5406";
 		reg = <0x38>;
@@ -159,9 +181,8 @@
 		interrupt-parent = <&tlmm>;
 		interrupts = <65 IRQ_TYPE_EDGE_FALLING>;
 
-		pinctrl-0 = <&ts_reset_active &ts_int_active>;
-		pinctrl-1 = <&ts_reset_suspend &ts_int_suspend>;
-		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&touch_default_state>;
+		pinctrl-names = "default";
 
 		reset-gpios = <&tlmm 64 GPIO_ACTIVE_LOW>;
 
@@ -171,7 +192,7 @@
 		touchscreen-size-x = <720>;
 		touchscreen-size-y = <1520>;
 
-		status = "okay";
+		status = "disabled";
 	};
 };
 
@@ -399,31 +420,10 @@
 		bias-pull-down;
 	};
 
-	ts_int_active: ts-int-active-state {
-		pins = "gpio65";
+	touch_default_state: touch-default-state {
+		pins = "gpio64", "gpio65";
 		function = "gpio";
 		drive-strength = <8>;
 		bias-pull-up;
-	};
-
-	ts_int_suspend: ts-int-suspend-state {
-		pins = "gpio65";
-		function = "gpio";
-		drive-strength = <2>;
-		bias-pull-down;
-	};
-
-	ts_reset_active: ts-reset-active-state {
-		pins = "gpio64";
-		function = "gpio";
-		drive-strength = <8>;
-		bias-pull-up;
-	};
-
-	ts_reset_suspend: ts-reset-suspend-state {
-		pins = "gpio64";
-		function = "gpio";
-		drive-strength = <2>;
-		bias-pull-down;
 	};
 };
