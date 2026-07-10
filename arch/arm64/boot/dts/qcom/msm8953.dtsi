@@ -1214,39 +1214,39 @@
 				bias-disable;
 			};
 
-			cdc_pdm_comp_lines_act: pdm-comp-lines-on-default-state {
+			cdc_pdm_comp_lines_default: cdc-pdm-comp-lines-default-state {
 				pins = "gpio67", "gpio68";
 				function = "cdc_pdm0";
 				drive-strength = <8>;
 			};
 
-			cdc_pdm_comp_lines_sus: pdm-comp-lines-off-default-state {
+			cdc_pdm_comp_lines_sleep: cdc-pdm-comp-lines-sleep-state {
 				pins = "gpio67", "gpio68";
 				function = "cdc_pdm0";
 				drive-strength = <2>;
 				bias-disable;
 			};
 
-			cdc_pdm_lines_2_act: pdm-lines-2-on-default-state {
+			cdc_pdm_lines_2_default: cdc-pdm-lines-2-default-state {
 				pins = "gpio70", "gpio71", "gpio72";
 				function = "cdc_pdm0";
 				drive-strength = <8>;
 			};
 
-			cdc_pdm_lines_2_sus: pdm-lines-2-off-default-state {
+			cdc_pdm_lines_2_sleep: cdc-pdm-lines-2-sleep-state {
 				pins = "gpio70", "gpio71", "gpio72";
 				function = "cdc_pdm0";
 				drive-strength = <2>;
 				bias-disable;
 			};
 
-			cdc_pdm_lines_act: pdm-lines-on-default-state {
+			cdc_pdm_lines_default: cdc-pdm-lines-default-state {
 				pins = "gpio69", "gpio73", "gpio74";
 				function = "cdc_pdm0";
 				drive-strength = <8>;
 			};
 
-			cdc_pdm_lines_sus: pdm-lines-off-default-state {
+			cdc_pdm_lines_sleep: cdc-pdm-lines-sleep-state {
 				pins = "gpio69", "gpio73", "gpio74";
 				function = "cdc_pdm0";
 				drive-strength = <2>;
