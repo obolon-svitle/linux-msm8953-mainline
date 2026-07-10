@@ -120,9 +120,8 @@
 		interrupt-parent = <&tlmm>;
 		interrupts = <65 IRQ_TYPE_EDGE_FALLING>;
 
-		pinctrl-0 = <&ts_reset_active &ts_int_active>;
-		pinctrl-1 = <&ts_reset_suspend &ts_int_suspend>;
-		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&touch_default>;
+		pinctrl-names = "default";
 
 		reset-gpios = <&tlmm 64 GPIO_ACTIVE_LOW>;
 
@@ -176,9 +175,8 @@
 		compatible = "asus,zenfone3-panel";
 		reg = <0>;
 
-		pinctrl-0 = <&pmx_mdss_default>;
-		pinctrl-1 = <&pmx_mdss_sleep>;
-		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&panel_default>;
+		pinctrl-names = "default";
 
 		reset-gpios = <&tlmm 61 GPIO_ACTIVE_LOW>;
 
@@ -365,16 +363,16 @@
 &sound_card {
 	status = "okay";
 
-	pinctrl-0 = <&cdc_pdm_lines_act
-		&cdc_pdm_lines_2_act
-		&cdc_pdm_comp_lines_act
-		&pri_tlmm_lines_act
-		&pri_tlmm_ws_act>;
-	pinctrl-1 = <&cdc_pdm_lines_sus
-		&cdc_pdm_lines_2_sus
-		&cdc_pdm_comp_lines_sus
-		&pri_tlmm_lines_sus
-		&pri_tlmm_ws_sus>;
+	pinctrl-0 = <&cdc_pdm_lines_default
+		     &cdc_pdm_lines_2_default
+		     &cdc_pdm_comp_lines_default
+		     &pri_mi2s_default
+		     &pri_mi2s_ws_default>;
+	pinctrl-1 = <&cdc_pdm_lines_sleep
+		     &cdc_pdm_lines_2_sleep
+		     &cdc_pdm_comp_lines_sleep
+		     &pri_mi2s_sleep
+		     &pri_mi2s_ws_sleep>;
 	pinctrl-names = "default", "sleep";
 
 	quinary-mi2s-dai-link {
@@ -396,7 +394,7 @@
 &tlmm {
 	gpio-reserved-ranges = <0 4>, <135 4>;
 
-	pmx_mdss_default: pmx-mdss-default-state {
+	panel_default: panel-default-state {
 		pins = "gpio61";
 		function = "gpio";
 		drive-strength = <8>;
@@ -404,63 +402,35 @@
 		output-high;
 	};
 
-	pmx_mdss_sleep: pmx-mdss-sleep-state {
-		pins = "gpio61";
-		function = "gpio";
-		drive-strength = <2>;
-		bias-pull-down;
-	};
-
-	pri_tlmm_lines_act: pri-tlmm-lines-act {
-		pins = "gpio88", "gpio91", "gpio93";
-		function = "pri_mi2s";
-		drive-strength = <8>;
-	};
-
-	pri_tlmm_lines_sus: pri-tlmm-lines-sus {
-		pins = "gpio88", "gpio91", "gpio93";
-		function = "pri_mi2s";
-		drive-strength = <2>;
-		bias-pull-down;
-	};
-
-	pri_tlmm_ws_act: pri-tlmm-ws-act {
-		pins = "gpio92";
-		function = "pri_mi2s_ws";
-		drive-strength = <8>;
-	};
-
-	pri_tlmm_ws_sus: pri-tlmm-ws-sus {
-		pins = "gpio92";
-		function = "pri_mi2s_ws";
-		drive-strength = <2>;
-		bias-pull-down;
-	};
-
-	ts_int_active: ts-int-active-state {
-		pins = "gpio65";
+	touch_default: touch-default-state {
+		pins = "gpio64", "gpio65";
 		function = "gpio";
 		drive-strength = <8>;
 		bias-pull-up;
 	};
 
-	ts_int_suspend: ts-int-suspend-state {
-		pins = "gpio65";
-		function = "gpio";
+	pri_mi2s_default: pri-mi2s-default {
+		pins = "gpio88", "gpio91", "gpio93";
+		function = "pri_mi2s";
+		drive-strength = <8>;
+	};
+
+	pri_mi2s_sleep: pri-mi2s-sleep {
+		pins = "gpio88", "gpio91", "gpio93";
+		function = "pri_mi2s";
 		drive-strength = <2>;
 		bias-pull-down;
 	};
 
-	ts_reset_active: ts-reset-active-state {
-		pins = "gpio64";
-		function = "gpio";
+	pri_mi2s_ws_default: pri-mi2s-ws-default {
+		pins = "gpio92";
+		function = "pri_mi2s_ws";
 		drive-strength = <8>;
-		bias-pull-up;
 	};
 
-	ts_reset_suspend: ts-reset-suspend-state {
-		pins = "gpio64";
-		function = "gpio";
+	pri_mi2s_ws_sleep: pri-mi2s-ws-sleep {
+		pins = "gpio92";
+		function = "pri_mi2s_ws";
 		drive-strength = <2>;
 		bias-pull-down;
 	};
