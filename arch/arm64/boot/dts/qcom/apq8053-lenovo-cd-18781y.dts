@@ -272,12 +272,10 @@
 		compatible = "focaltech,ft8201";
 		reg = <0x38>;
 
-		interrupt-parent = <&tlmm>;
-		interrupts = <65 IRQ_TYPE_EDGE_FALLING>;
+		interrupts-extended = <&tlmm 65 IRQ_TYPE_EDGE_FALLING>;
 
-		pinctrl-0 = <&ts_reset_default &ts_int_default>;
-		pinctrl-1 = <&ts_reset_sleep &ts_int_sleep>;
-		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&touch_default>;
+		pinctrl-names = "default";
 
 		reset-gpios = <&tlmm 64 GPIO_ACTIVE_LOW>;
 
@@ -294,12 +292,10 @@
 		compatible = "himax,hx83100a";
 		reg = <0x48>;
 
-		interrupt-parent = <&tlmm>;
-		interrupts = <65 IRQ_TYPE_EDGE_FALLING>;
+		interrupts-extended = <&tlmm 65 IRQ_TYPE_EDGE_FALLING>;
 
-		pinctrl-0 = <&ts_reset_default &ts_int_default>;
-		pinctrl-1 = <&ts_reset_sleep &ts_int_sleep>;
-		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&touch_default>;
+		pinctrl-names = "default";
 
 		reset-gpios = <&tlmm 64 GPIO_ACTIVE_LOW>;
 
@@ -359,10 +355,16 @@
 &sound_card {
 	model = "cd-18781y";
 
-	pinctrl-0 = <&cdc_dmic0_clk_act &cdc_dmic0_data_act
-		     &tlmm_sec_act &tlmm_pri_act &tlmm_pri_ws_act>;
-	pinctrl-1 = <&cdc_dmic0_clk_sus &cdc_dmic0_data_sus
-		     &tlmm_sec_sus &tlmm_pri_sus &tlmm_pri_ws_sus>;
+	pinctrl-0 = <&cdc_dmic0_clk_default
+		     &cdc_dmic0_data_default
+		     &sec_mi2s_default
+		     &pri_mi2s_default
+		     &pri_mi2s_ws_default>;
+	pinctrl-1 = <&cdc_dmic0_clk_sleep
+		     &cdc_dmic0_data_sleep
+		     &sec_mi2s_sleep
+		     &pri_mi2s_sleep
+		     &pri_mi2s_ws_default>;
 	pinctrl-names = "default", "sleep";
 
 	/* Device has no headphone jack */
@@ -616,81 +618,60 @@
 		bias-disable;
 	};
 
-	ts_reset_default: ts-reset-default-state {
-		pins = "gpio64";
+	touch_default: touch-default-state {
+		pins = "gpio64", "gpio65";
 		function = "gpio";
 		drive-strength = <8>;
 		bias-pull-up;
 	};
 
-	ts_reset_sleep: ts-reset-sleep-state {
-		pins = "gpio64";
-		function = "gpio";
-		drive-strength = <2>;
-		bias-pull-down;
-	};
-
-	ts_int_default: ts-int-default-state {
-		pins = "gpio65";
-		function = "gpio";
-		drive-strength = <8>;
-		bias-pull-up;
-	};
-
-	ts_int_sleep: ts-int-sleep-state {
-		pins = "gpio65";
-		function = "gpio";
-		drive-strength = <2>;
-		bias-pull-down;
-	};
-
-	tlmm_pri_act: pri-tlmm-on-pins {
+	pri_mi2s_default: pri-mi2s-default-state {
 		pins = "gpio88", "gpio91", "gpio93";
 		function = "pri_mi2s";
 		drive-strength = <8>;
 		bias-disable;
 	};
 
-	tlmm_pri_sus: pri-tlmm-off-pins {
+	pri_mi2s_sleep: pri-mi2s-sleep-state {
 		pins = "gpio88", "gpio91", "gpio93";
 		function = "pri_mi2s";
 		drive-strength = <2>;
 		bias-pull-down;
 	};
 
-	cdc_dmic0_clk_act: dmic0-clk-on-pins {
+	cdc_dmic0_clk_default: cdc-dmic0-clk-default-state {
 		pins = "gpio89";
 		function = "dmic0_clk";
 		drive-strength = <8>;
 	};
 
-	cdc_dmic0_clk_sus: dmic0-clk-off-pins {
+	cdc_dmic0_clk_sleep: cdc-dmic0-clk-sleep-state {
 		pins = "gpio89";
 		function = "dmic0_clk";
 		drive-strength = <2>;
 		bias-disable;
 	};
 
-	cdc_dmic0_data_act: dmic0-data-on-pins {
+	cdc_dmic0_data_default: cdc-dmic0-data-default-state {
 		pins = "gpio90";
 		function = "dmic0_data";
 		drive-strength = <8>;
 	};
 
-	cdc_dmic0_data_sus: dmic0-data-off-pins {
+	cdc_dmic0_data_sleep: cdc-dmic0-data-sleep-state {
 		pins = "gpio90";
 		function = "dmic0_data";
 		drive-strength = <2>;
 		bias-disable;
 	};
 
-	tlmm_pri_ws_act: pri-act-tlmm-on-pins {
+	pri_mi2s_ws_default: pri-mi2s-ws-default-state {
 		pins = "gpio92";
 		function = "pri_mi2s_ws";
 		drive-strength = <8>;
 	};
 
-	tlmm_pri_ws_sus: pri-ws-tlmm-off-pins {
+	pri_mi2s_ws_sleep: pri-mi2s-ws-sleep-state {
 		pins = "gpio92";
 		function = "pri_mi2s_ws";
 		drive-strength = <2>;
@@ -710,13 +691,13 @@
 		bias-pull-down;
 	};
 
-	tlmm_sec_act: sec-tlmm-on-pins  {
+	sec_mi2s_default: sec-mi2s-default-state  {
 		pins = "gpio135", "gpio136", "gpio137", "gpio138";
 		function = "sec_mi2s";
 		drive-strength = <8>;
 	};
 
-	tlmm_sec_sus: sec-tlmm-off-pins  {
+	sec_mi2s_sleep: sec-mi2s-sleep-state  {
 		pins = "gpio135", "gpio136", "gpio137", "gpio138";
 		function = "sec_mi2s";
 		drive-strength = <2>;
