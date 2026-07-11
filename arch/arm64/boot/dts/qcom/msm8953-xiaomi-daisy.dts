@@ -270,7 +270,7 @@
 &tlmm {
 	gpio-reserved-ranges = <0 4>, <16 4>, <135 4>;
 
-	cam_sensor_front_default: cam_sensor_front_default {
+	cam_sensor_front_default: cam-sensor-front-default-state {
 		pins = "gpio129";
 		function = "gpio";
 		drive-strength = <2>;
