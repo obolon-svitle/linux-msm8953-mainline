@@ -86,7 +86,7 @@
 		regulator-name = "tp2v8_vreg";
 		regulator-min-microvolt = <2800000>;
 		regulator-max-microvolt = <2800000>;
-		gpio = <&tlmm  128 GPIO_ACTIVE_HIGH>;
+		gpio = <&tlmm 128 GPIO_ACTIVE_HIGH>;
 		startup-delay-us = <5000>;
 		enable-active-high;
 	};
@@ -119,9 +119,6 @@
 	vdda-supply = <&pm8953_s3>;
 	vddio-supply = <&pm8953_l6>;
 
-	pinctrl-0 = <&mdss_dsi_default>;
-	pinctrl-1 = <&mdss_dsi_sleep>;
-	pinctrl-names = "default", "sleep";
 
 	status = "okay";
 
@@ -130,6 +127,9 @@
 		reg = <0>;
 
 		backlight = <&pmi8950_wled>;
+
+		pinctrl-0 = <&panel_default>;
+		pinctrl-names = "default";
 
 		reset-gpios = <&tlmm 35 GPIO_ACTIVE_LOW>;
 
@@ -154,14 +154,14 @@
 	model = "xiaomi-oxygen";
 
 	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&cdc_pdm_lines_act
-		&cdc_pdm_lines_2_act
-		&cdc_pdm_comp_lines_act
-		&tlmm_pri_act>;
-	pinctrl-1 = <&cdc_pdm_lines_sus
-		&cdc_pdm_lines_2_sus
-		&cdc_pdm_comp_lines_sus
-		&tlmm_pri_sus>;
+	pinctrl-0 = <&cdc_pdm_lines_default
+		     &cdc_pdm_lines_2_default
+		     &cdc_pdm_comp_lines_default
+		     &pri_mi2s_default>;
+	pinctrl-1 = <&cdc_pdm_lines_sleep
+		     &cdc_pdm_lines_2_sleep
+		     &cdc_pdm_comp_lines_sleep
+		     &pri_mi2s_sleep>;
 
 	status = "okay";
 };
@@ -169,32 +169,25 @@
 &tlmm {
 	gpio-reserved-ranges = <0 4>, <135 4>;
 
-	tlmm_pri_act: pri-tlmm-state {
+	pri_mi2s_default: pri-mi2s-default-state {
 		pins = "gpio88", "gpio91", "gpio93", "gpio94", "gpio95";
 		function = "pri_mi2s";
 		drive-strength = <8>;
 		bias-disable;
 	};
 
-	tlmm_pri_sus: pri-tlmm-state {
+	pri_mi2s_sleep: pri-mi2s-sleep-state {
 		pins = "gpio88", "gpio91", "gpio93", "gpio94", "gpio95";
 		function = "pri_mi2s";
 		drive-strength = <2>;
 		bias-pull-down;
 	};
 
-	mdss_dsi_default: mdss-dsi-default-state {
+	panel_default: panel-default-state {
 		pins = "gpio35";
 		function = "gpio";
 		drive-strength = <8>;
 		bias-disable;
-	};
-
-	mdss_dsi_sleep: mdss-dsi-sleep-default {
-		pins = "gpio35";
-		function = "gpio";
-		drive-strength = <2>;
-		bias-pull-down;
 	};
 };
 
