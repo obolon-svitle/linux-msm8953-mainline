@@ -132,10 +132,6 @@
 	vdda-supply = <&pm8953_s3>;
 	vddio-supply = <&pm8953_l6>;
 
-	pinctrl-0 = <&pmx_mdss_default &mdss_te_default>;
-	pinctrl-1 = <&pmx_mdss_sleep &mdss_te_default>;
-	pinctrl-names = "default", "sleep";
-
 	status = "okay";
 
 	panel: panel@0 {
@@ -146,7 +142,7 @@
 
 		iovcc-supply = <&pm8953_l6>;
 
-		pinctrl-0 = <&bklt_en_default>;
+		pinctrl-0 = <&panel_default &bklt_en_default &mdss_te_default>;
 		pinctrl-names = "default";
 
 		port {
@@ -359,19 +355,12 @@
 	 */
 	gpio-reserved-ranges = <0 4>, <96 4>;
 
-	pmx_mdss_default: pmx-mdss-default-pins {
+	panel_default: panel-default-state {
 		pins = "gpio61";
 		function = "gpio";
 		drive-strength = <8>;
 		bias-disable;
 		output-high;
-	};
-
-	pmx_mdss_sleep: pmx-mdss-sleep-pins {
-		pins = "gpio61";
-		function = "gpio";
-		drive-strength = <2>;
-		bias-pull-down;
 	};
 };
 
