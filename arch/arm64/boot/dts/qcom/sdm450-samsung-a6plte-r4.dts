@@ -985,8 +985,14 @@
 	audio-routing =
 		"AMIC1", "MIC BIAS External1",
 		"AMIC2", "MIC BIAS External1";
-	pinctrl-0 = <&cdc_pdm_lines_act &cdc_pdm_lines_2_act &cdc_pdm_comp_lines_act &quat_tlmm_default>;
-	pinctrl-1 = <&cdc_pdm_lines_sus &cdc_pdm_lines_2_sus &cdc_pdm_comp_lines_sus &quat_tlmm_default>;
+	pinctrl-0 = <&cdc_pdm_lines_default
+		     &cdc_pdm_lines_2_default
+		     &cdc_pdm_comp_lines_default
+		     &sec_mi2s_default>;
+	pinctrl-1 = <&cdc_pdm_lines_sleep
+		     &cdc_pdm_lines_2_sleep
+		     &cdc_pdm_comp_lines_sleep
+		     &sec_mi2s_default>;
 	pinctrl-names = "default", "sleep";
 	status = "okay";
 
@@ -1040,7 +1046,7 @@
 		bias-disable;
 	};
 
-	quat_tlmm_default: quat-tlmm-state {
+	sec_mi2s_default: sec-mi2s-default-state {
 		pins = "gpio135", "gpio136", "gpio137", "gpio138";
 		function = "sec_mi2s";
 		drive-strength = <8>;
