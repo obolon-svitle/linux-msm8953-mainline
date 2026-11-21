@@ -520,8 +520,7 @@ static void dw9768_remove(struct i2c_client *client)
 	v4l2_ctrl_handler_free(&dw9768->ctrls);
 	media_entity_cleanup(&dw9768->sd.entity);
 	pm_runtime_disable(dev);
-	if ((is_acpi_node(dev_fwnode(dev)) && acpi_dev_state_d0(dev)) ||
-	    (is_of_node(dev_fwnode(dev)) && !IS_ENABLED(CONFIG_PM))) {
+	if (!pm_runtime_status_suspended(dev)) {
 		dw9768_runtime_suspend(dev);
 		pm_runtime_set_suspended(dev);
 	}
@@ -529,6 +528,7 @@ static void dw9768_remove(struct i2c_client *client)
 
 static const struct of_device_id dw9768_of_table[] = {
 	{ .compatible = "dongwoon,dw9768" },
+	{ .compatible = "dongwoon,dw9763" },
 	{ .compatible = "giantec,gt9769" },
 	{}
 };

@@ -138,6 +138,16 @@
 					"0", "0", "1";
 		};
 	};
+
+	avdd_cam_back: vreg-cam-back-avdd {
+		compatible = "regulator-fixed";
+		regulator-name = "vreg-cam-back-avdd";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+		gpio = <&tlmm 62 GPIO_ACTIVE_HIGH>;
+		enable-active-high;
+		vin-supply = <&pm8953_l22>;
+	};
 };
 
 &aw2013_led {
@@ -282,6 +292,13 @@
 		bias-disable;
 		drive-strength = <2>;
 	};
+
+	cam_sensor_rear_primary_default: cam_sensor_rear_primary_default {
+		pins = "gpio33";
+		function = "gpio";
+		bias-disable;
+		drive-strength = <2>;
+	};
 };
 
 &uart_0 {
@@ -305,6 +322,13 @@
 	vdda-supply = <&pm8953_s3>;
 
 	ports {
+		port@0 {
+			reg = <0>;
+			csiphy0_ep: endpoint {
+				data-lanes = <0 1 2 3>;
+				remote-endpoint = <&rear_cam_primary_ep>;
+			};
+		};
 		port@2 {
 			reg = <2>;
 			csiphy2_ep: endpoint {
@@ -317,6 +341,53 @@
 
 &cci {
         status = "okay";
+};
+
+&cci_i2c0 {
+	dw9763: actuator@c {
+		compatible = "dongwoon,dw9763";
+		reg = <0x0c>;
+		vdd-supply = <&pm8953_l17>;
+
+		status = "okay";
+
+	};
+
+
+	camera-sensor@10 { // Primary rear camera
+		compatible = "ov12a10";
+
+		reg = <0x10>;
+
+		clocks = <&gcc GCC_CAMSS_MCLK0_CLK>;
+
+		pinctrl-0 = <&cam_sensor_rear_primary_default>,
+			<&camss_mclk0_default>;
+		pinctrl-names = "default";
+
+		reset-gpios = <&tlmm 33 GPIO_ACTIVE_LOW>;
+
+		avdd-supply = <&avdd_cam_back>;
+		dvdd-supply = <&pm8953_l2>;
+		dovdd-supply = <&pm8953_l6>;
+		afvcc-supply = <&pm8953_l17>;
+
+		orientation = <1>;
+		rotation = <270>;
+
+		lens-focus = <&dw9763>;
+
+		status = "okay";
+
+		port {
+			rear_cam_primary_ep: endpoint {
+				clock-lanes = <7>;
+				data-lanes = <0 1 2 3>;
+				remote-endpoint = <&csiphy0_ep>;
+				link-frequencies = /bits/ 64 <560000000>;
+			};
+		};
+	};
 };
 
 &cci_i2c1 {
